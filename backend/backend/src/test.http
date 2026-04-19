@@ -1,8 +1,0 @@
-POST http://localhost:8081/api/users/register
-Content-Type: application/json
-
-{
-    "username": "mehmet_dev",
-    "email": "mehmet@codeyourtree.com",
-    "password": "benimsifremçokgizli"
-}

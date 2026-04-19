@@ -5,6 +5,12 @@
 # Maven
 target/
 *.log
+backend/mvnw
+backend/mvnw.cmd
+backend/.mvn/
+backend/HELP.md
+backend/.gitattributes
+backend/src/test.http
 
 # OS generated files
 .DS_Store

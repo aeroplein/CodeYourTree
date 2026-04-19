@@ -1,0 +1,95 @@
+body {
+    background-color: var(--bg-dark);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(circle at top right, rgba(46, 213, 115, 0.1), transparent);
+}
+
+.auth-card {
+    background: var(--card-glass, rgba(34, 59, 67, 0.8));
+    backdrop-filter: blur(12px);
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid var(--border-subtle);
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.auth-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    color: var(--text-main, #ffffff);
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: var(--input-bg, rgb(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 4px rgba(46, 213, 115, 0.1);
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    background: var(--brand-green);
+    color: var(--bg-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px var(--brand-shadow, rgba(46, 213, 115, 0.2));
+}
+
+.auth-footer {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.auth-footer a {
+    color: var(--brand-green);
+    text-decoration: none;
+    font-weight: 600;
+}

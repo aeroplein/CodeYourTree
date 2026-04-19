@@ -3,4 +3,14 @@
     --card-bg: #5A7863;
     --brand-green: #90AB8B;
     --text-main: #EBF4DD;
+    --text-secondary: #94a3b8;
+    --error-red: #ff7675;
+    --success-green: #6dcf96;
+    --border-subtle: rgba(235, 244, 221, 0.1);
+    --brand-green-hover: #A7C1A3;
+    --slate-border: #334155;
+    --error-bg: #fee2e2;
+    --error-text: #ef4444;
+    --success-bg: #dcfce7;
+    --success-text: #22c55e;
 }

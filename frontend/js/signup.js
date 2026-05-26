@@ -36,7 +36,8 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
                 username,
                 email,
                 password
-            })
+            }),
+            credentials: 'include'
         });
 
         const data = await response.text();

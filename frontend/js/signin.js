@@ -15,20 +15,21 @@ function showToast(message, isError = false) {
 
 document.getElementById('login-form').addEventListener('submit', async (event) => {
     event.preventDefault();
-    
+
     const username = document.getElementById('username-input').value;
     const password = document.getElementById('password-input').value;
 
     try {
         const response = await fetch(`${API_BASE}/login`, {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json' 
+            headers: {
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 username: username,
                 password: password
-            })
+            }),
+            credentials: 'include'
         });
 
         const data = await response.text();

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchTreeData(username) {
         try {
-            const response = await fetch(`http://localhost:8081/api/trees/${username}`);
+            const response = await fetch(`http://localhost:8081/api/trees/${username}`, { credentials: 'include' });
             if (response.ok) {
                 const data = await response.json();
                 state = data;
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleWaterTree(username) {
         const response = await fetch(`http://localhost:8081/api/trees/water/${username}`,
-            { method: 'POST' }
+            { method: 'POST', credentials: 'include' }
         );
         if (response.ok) {
             const data = await response.json();

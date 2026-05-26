@@ -6,11 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
         lastLogDate: null
     };
 
-    const loggedUser = localStorage.getItem("loggedUser");
-    if (!loggedUser)
-        window.location.href = "signin.html";
+    let loggedUser = null;
+    async function checkAuthentication() {
+        try {
+            const response = await fetch("http://localhost:8081/api/users/me", { credentials: "include" });
+            if (!response.ok) {
+                window.location.href = "signin.html";
+                return;
+            }
+            const user = await response.json();
+            loggedUser = user.username;
+            document.getElementById('display-username').innerText = loggedUser;
+            fetchTreeData(loggedUser);
+        } catch (error) {
 
-    document.getElementById('display-username').innerText = loggedUser;
+        }
+    }
 
 
     const UI = {
@@ -37,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    fetchTreeData("testUser");
 
     async function handleWaterTree(username) {
         const response = await fetch(`http://localhost:8081/api/trees/water/${username}`,
@@ -139,7 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     UI.logButton.addEventListener('click', function () {
-        handleWaterTree("testUser");
+        if(loggedUser)
+            handleWaterTree(loggedUser);
     });
 
     UI.streakText.innerText = state.streak;

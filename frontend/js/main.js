@@ -19,19 +19,31 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('display-username').innerText = loggedUser;
             fetchTreeData(loggedUser);
         } catch (error) {
-            window.location.href = "signing.html";
+            window.location.href = "signin.html";
         }
 
-        checkAuthentication();
+
     }
 
+    checkAuthentication();
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        if (!toast) return;
+        toast.innerText = message;
+        toast.className = "show";
+        setTimeout(() => {
+            toast.className = toast.className.replace("show", "");
+        }, 3500);
+    }
 
     const UI = {
         logButton: document.getElementById('logBtn'),
         streakText: document.getElementById('streak-count'),
         canvas: document.getElementById('treeCanvas'),
         heatmap: document.getElementById('heatmap'),
-        rankText: document.getElementById('tree-rank')
+        rankText: document.getElementById('tree-rank'),
+        logoutButton: document.getElementById('logoutBtn')
     };
 
     async function fetchTreeData(username) {
@@ -58,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
             const data = await response.json();
             state = data;
-            alert(`Tree watered! New streak: ${data.streak} days, XP: ${data.xp}`);
+            showToast(`Tree watered! New streak: ${data.streak} days, XP: ${data.xp}`);
             UI.streakText.innerText = data.streak;
             updateRank();
             drawHeatmap();
@@ -154,6 +166,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loggedUser)
             handleWaterTree(loggedUser);
     });
+
+    UI.logoutButton.addEventListener('click', async () => {
+        try {
+            const response = await fetch("http://localhost:8081/api/users/logout",
+                {
+                    method: "POST",
+                    credentials: 'include'
+                }
+            );
+            if (response.ok) {
+                window.location.href = "signin.html";
+            }
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    })
 
     UI.streakText.innerText = state.streak;
     updateRank();

@@ -27,12 +27,13 @@
 </head>
 
 <body>
-    <header id="top-nav" class="dashboard-header d-flex justify-content-between align-items-center p-3 mb-4">
+        <header id="top-nav" class="dashboard-header d-flex justify-content-between align-items-center p-3 mb-4">
         <div class="user-info">
             <span>
                 Welcome back, <strong id="display-username">...</strong>!
             </span>
         </div>
+        <button id="logoutBtn" class="btn btn-outline-danger btn-sm">Sign Out</button>
     </header>
     <div class="container mt-5">
         <div class="row">
@@ -56,7 +57,7 @@
             </div>
         </div>
     </div>
-
+    <div id="toast"></div>
 </body>
 
 </html>

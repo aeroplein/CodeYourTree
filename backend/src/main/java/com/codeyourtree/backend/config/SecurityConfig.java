@@ -38,7 +38,10 @@ public class SecurityConfig {
         // what headers they can send etc
         CorsConfiguration corsConfig = new CorsConfiguration();
         // sadece frontendden istek alıyor
-        corsConfig.setAllowedOrigins(java.util.List.of("http://localhost:5500", "http://127.0.0.1:5500"));
+        corsConfig.setAllowedOrigins(java.util.List.of("http://localhost:5500",
+                "http://127.0.0.1:5500",
+                "http://localhost:3000",
+                "http://127.0.0.1:3000"));
         corsConfig.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfig.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "Accept"));
         corsConfig.setAllowCredentials(true);

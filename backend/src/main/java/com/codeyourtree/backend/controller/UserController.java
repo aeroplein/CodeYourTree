@@ -82,4 +82,14 @@ public class UserController {
             return ResponseEntity.status(401).body("Unauthorized");
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("token", "")
+                .httpOnly(true).secure(false).path("/")
+                .maxAge(0).sameSite("Lax").build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok("Logout successful");
+
+    }
 }

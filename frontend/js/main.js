@@ -19,8 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('display-username').innerText = loggedUser;
             fetchTreeData(loggedUser);
         } catch (error) {
-
+            window.location.href = "signing.html";
         }
+
+        checkAuthentication();
     }
 
 
@@ -149,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     UI.logButton.addEventListener('click', function () {
-        if(loggedUser)
+        if (loggedUser)
             handleWaterTree(loggedUser);
     });
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 //Bu annot sınıfın bir api olduğunu ve json döneceğini belirtir.
 @RestController
@@ -68,6 +69,17 @@ public class UserController {
             return ResponseEntity.ok("Login successful.");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser() {
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userService.getUserByUsername(username);
+            return ResponseEntity.ok(java.util.Map.of("username", user.getUsername(), "email", user.getEmail()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).body("Unauthorized");
         }
     }
 }

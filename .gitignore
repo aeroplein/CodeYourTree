@@ -20,4 +20,6 @@ Thumbs.db
 node_modules/
 .env
 
+# Markdown files (Ignore all except README.md)
 *.md
+!README.md

@@ -1,6 +1,7 @@
 package com.codeyourtree.backend.controller;
 
 import com.codeyourtree.backend.model.User;
+import com.codeyourtree.backend.service.JwtService;
 import com.codeyourtree.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.HttpHeaders;
+
 //Bu annot sınıfın bir api olduğunu ve json döneceğini belirtir.
 @RestController
 @RequestMapping("/api/users") // ana adresimiz localhost.../api/users olacak
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*") // frontendin farklı portlardaki sitelerin erişimine izin verir.
 public class UserController {
     private final UserService userService;
+    private final JwtService jwtService;
 
     /*
      * Data Transfer Object
@@ -52,10 +58,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> loginUser(@RequestBody RegisterRequest request, HttpServletResponse response) {
         try {
             User loggedUser = userService.loginUser(request.getUsername(), request.getPassword());
-            return ResponseEntity.ok(loggedUser.getUsername());
+            String token = jwtService.generateToken(loggedUser.getUsername());
+            ResponseCookie cookie = ResponseCookie.from("token", token).httpOnly(true).secure(false).path("/")
+                    .maxAge(24 * 60 * 60).sameSite("Lax").build();
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            return ResponseEntity.ok("Login successful.");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

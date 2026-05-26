@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loggedUser = localStorage.getItem("loggedUser");
     if (!loggedUser)
-        window.location.href = "login.html";
+        window.location.href = "signin.html";
 
     document.getElementById('display-username').innerText = loggedUser;
 

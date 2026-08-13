@@ -29,7 +29,7 @@
     *   🌿 **Sapling** *(7+ Day Streak)*
     *   🌳 **Young Tree** *(15+ Day Streak)*
     *   👑 **Mighty Oak** *(30+ Day Streak)*
-*   🔒 **Secure Cookie-Based JWT Auth**: Advanced authentication flow utilizing secure **HttpOnly, SameSite=Lax** JWT cookies to prevent XSS and CSRF attacks.
+*   🔒 **JWT Authentication with HttpOnly Cookies**: Stateless authentication using an **HttpOnly, SameSite=Lax** JWT cookie. The cookie is configured for local HTTP development with `Secure=false`.
 *   🍞 **Bouncy Toast Notifications**: Custom non-blocking visual feedback when watering your tree, replacing annoying native alerts with smooth CSS transitions.
 
 ---
@@ -63,6 +63,10 @@ CodeYourTree/
 │   │   └── service/         # Core business logic (JWT, user, watering rules)
 │   ├── src/main/resources/
 │   │   └── application.properties # Database connection settings
+│   ├── src/test/java/com/codeyourtree/backend/
+│   │   ├── BackendApplicationTests.java
+│   │   └── service/
+│   │       └── TreeDataServiceTest.java
 │   └── pom.xml
 └── frontend/
     ├── css/                 # Premium design & responsive styles
@@ -92,7 +96,7 @@ CREATE DATABASE codeyourtreedb;
     ```
 3. Run the Spring Boot application using your IDE or run the following command in terminal:
     ```bash
-    ./mvnw spring-boot:run
+    mvn spring-boot:run
     ```
     *The backend server will spin up on port `8081`.*
 
@@ -104,8 +108,30 @@ CREATE DATABASE codeyourtreedb;
 
 ---
 
+## 🧪 Testing
+
+The backend test suite uses **JUnit 5** and **Mockito**, provided by Spring Boot’s test starter.
+
+`TreeDataServiceTest` contains focused service-layer unit tests for the tree progression rules:
+
+* First watering applies the initial daily progression rules.
+* A second watering on the same day is rejected without saving.
+* Consecutive-day watering increases the streak and XP.
+* Reaching the third consecutive day increases the tree’s maximum depth.
+* Missing a day resets the streak and tree depth while preserving accumulated XP.
+
+Run the complete backend test suite from the `backend` directory:
+
+```bash
+mvn test
+```
+
+The suite also contains a Spring application-context test, which uses the PostgreSQL configuration in `application.properties`. A configured local database is therefore required when running the complete suite.
+
+---
+
 ## 🔒 Security Architecture
-Here is a high-level overview of how we protect user session data:
+The current authentication flow stores the JWT in an HttpOnly cookie:
 
 ```text
   [Browser Client]                                              [Spring Boot Server]
@@ -120,7 +146,7 @@ Here is a high-level overview of how we protect user session data:
 
 > [!IMPORTANT]
 > **Why HttpOnly Cookies?**
-> By utilizing `HttpOnly` flags, client-side JavaScript cannot read the JWT string from `document.cookie`. This creates a solid layer of defense against Cross-Site Scripting (XSS) attacks.
+> The `HttpOnly` flag prevents client-side JavaScript from reading the JWT through `document.cookie`, reducing direct token exposure. The current configuration uses `SameSite=Lax`, disables Spring Security’s CSRF protection, and sets `Secure=false` for local HTTP development. Production deployment would require reviewing these settings and enabling HTTPS-only cookies.
 
 ---
 
